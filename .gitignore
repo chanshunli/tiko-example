@@ -6,7 +6,6 @@ pom.xml.asc
 *.jar
 *.class
 /.lein-*
-/.nrepl-port
 .hgignore
 .hg/
 figwheel_server.log
