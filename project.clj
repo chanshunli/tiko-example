@@ -16,7 +16,10 @@
                  [ring/ring-defaults "0.3.0-beta1"]
                  [hiccup "1.0.5"]
                  [re-frame "0.8.0"]
-                 [reagent "0.6.0"]]
+                 [reagent "0.6.0"]
+                 [org.clojure/tools.nrepl "0.2.13"]
+                 [com.cemerick/piggieback "0.2.2-SNAPSHOT"]
+                 [cider/cider-nrepl "0.15.0-SNAPSHOT"]]
   :main ^:skip-aot backend.main
   :source-paths ["src/clj" "src/cljs" "src/cljc"]
   :test-paths ["test/clj" "test/cljs" "test/cljc"]
@@ -49,7 +52,9 @@
                          :optimizations :advanced
                          :output-to "target/production/resources/js/main.js"
                          :output-dir "target/production/resources/js/out"}}]}
-  :figwheel {:css-dirs ["target/dev/resources/css"]}
+  :figwheel {:css-dirs ["target/dev/resources/css"]
+             :nrepl-port 7003
+             :nrepl-middleware ["cemerick.piggieback/wrap-cljs-repl"]}
   :auto-clean false
   :aliases {"develop" ["do" "clean"
                        ["pdo" ["sass4clj" "auto"] ["figwheel"]]]
