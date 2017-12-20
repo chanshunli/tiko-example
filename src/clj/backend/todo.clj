@@ -31,6 +31,14 @@
   (let [new-todo (-> event second :new-todo)]
     (swap! db conj new-todo)
 
+    ;; 全部客户端的同步批量操作:
+    
+    ;; 已经连接的客户端列表: (prn (:connected-uids sente/sente)) => {:ws #{"aac27ad1-8d27-4d8a-9ef6-de6502cb7eb8" "898377ef-700e-4f20-8f99-f4a7dbf4c921"}, :ajax #{}, :any #{"aac27ad1-8d27-4d8a-9ef6-de6502cb7eb8" "898377ef-700e-4f20-8f99-f4a7dbf4c921"}}
+    
+    ;; 发送消息的函数send-fn: (:send-fn sente/sente) => #object[taoensso.sente$make_channel_socket_server_BANG_$send_fn__11841 0x5c87c64c "taoensso.sente$make_channel_socket_server_BANG_$send_fn__11841@5c87c64c"]
+
+    ;; 发送消息给某个客户端: 
+    ;; 指定某个客户端才发消息: ` ((:send-fn sente/sente) "63939259-88fd-4682-bde5-885a65055dba" [:todo/push-all {:todos ["abc" "ooo"]}]) `
     ;; Broadcast new todo list to everyone
     (doseq [uid (:any @(:connected-uids sente/sente))]
       ((:send-fn sente/sente)
