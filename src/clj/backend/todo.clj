@@ -26,6 +26,12 @@
 
 ;; Exercise 6. Fix function so that it does change the db
 ;; or broadcast if the created todo item was was empty.
+;; => 订阅前端的`:todo/create`创建todo事件, `(swap! db conj new-todo)`创建后台数据
+;; (re-frame/reg-event-fx
+;;  :todo/create
+;;  (fn [{:keys [db]} _]
+;;    {:sente/event {:event [:todo/create (select-keys db [:new-todo])]}
+;;     :db (dissoc db :new-todo)}))
 (defmethod sente/event-msg-handler :todo/create
   [{:keys [event]}]
   (let [new-todo (-> event second :new-todo)]
